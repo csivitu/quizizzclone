@@ -1496,46 +1496,20 @@ function browseQuizzes(subject) {
 
 
 function startQuiz(quizCode, playerName) {
-    // Quiz database (add more codes/questions here)
-    const quizData = {
-        "MATH001": {
-            title: "Basic Math Operations",
-            question: "What is 15 + 27?",
-            options: ["A) 32", "B) 42", "C) 52", "D) 62"]
-        },
-        "SCI001": {
-            title: "Physics Principles",
-            question: "What force keeps planets in orbit around the sun?",
-            options: ["A) Magnetism", "B) Gravity", "C) Friction", "D) Inertia"]
-        },
-        "HIS001": {
-            title: "World History",
-            question: "Who was the first President of the USA?",
-            options: ["A) Abraham Lincoln", "B) George Washington", "C) John Adams", "D) Thomas Jefferson"]
-        }
-    };
-
-    // Fallback if invalid code
-    const quiz = quizData[quizCode] || {
-        title: "Unknown Quiz",
-        question: "Invalid or unknown quiz code.",
-        options: ["A) N/A"]
-    };
-
     // Close any open modals
     const existingModal = document.querySelector('.quiz-modal');
     if (existingModal) {
         existingModal.remove();
     }
 
-    // Create quiz interface (UI unchanged from your code, just plugged in dynamic data)
+    // Create quiz interface
     const quizInterface = document.createElement('div');
     quizInterface.className = 'quiz-interface';
     quizInterface.innerHTML = `
         <div class="quiz-container">
             <div class="quiz-header">
                 <div class="quiz-info">
-                    <h2>Quiz: ${quiz.title}</h2>
+                    <h2>Quiz: Basic Math Operations</h2>
                     <p>Player: ${playerName}</p>
                 </div>
                 <div class="quiz-timer">
@@ -1546,16 +1520,17 @@ function startQuiz(quizCode, playerName) {
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: 0%"></div>
                 </div>
-                <span class="progress-text">Question 1 of 1</span>
+                <span class="progress-text">Question 1 of 10</span>
             </div>
             <div class="question-container">
                 <div class="question">
-                    <h3>${quiz.question}</h3>
+                    <h3>What is 15 + 27?</h3>
                 </div>
                 <div class="options">
-                    ${quiz.options.map((opt, i) => `
-                        <button class="option-btn" data-answer="${String.fromCharCode(65+i)}">${opt}</button>
-                    `).join("")}
+                    <button class="option-btn" data-answer="A">A) 32</button>
+                    <button class="option-btn" data-answer="B">B) 42</button>
+                    <button class="option-btn" data-answer="C">C) 52</button>
+                    <button class="option-btn" data-answer="D">D) 62</button>
                 </div>
             </div>
             <div class="quiz-actions">
@@ -1564,8 +1539,6 @@ function startQuiz(quizCode, playerName) {
             </div>
         </div>
     `;
-
-    document.body.appendChild(quizInterface);
 
     // Add quiz interface styles
     const quizStyles = `
