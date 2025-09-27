@@ -1262,7 +1262,7 @@ function joinQuiz(subject) {
     modal.innerHTML = `
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Join ${getSubjectTitle(subject)} Quiz</h2>
+                <h2>Join Quiz Codes: MATH001, STS001, SCI001</h2>
                 <button class="close-modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -1487,7 +1487,7 @@ function browseQuizzes(subject) {
 
     document.body.appendChild(modal);
 
-    // Close modal functionality
+
     modal.querySelector('.close-modal').addEventListener('click', () => {
         modal.remove();
     });
@@ -1496,6 +1496,29 @@ function browseQuizzes(subject) {
 
 
 function startQuiz(quizCode, playerName) {
+    const quizData = {
+        "MATH001": {
+            title: "Basic Math Operations",
+            question: "What is 15 + 27?",
+            options: ["A) 41", "B) 42", "C) 52", "D) 62"]
+        },
+        "SCI001": {
+            title: "Physics Basics",
+            question: "Which of the following is a scalar quantity",
+            options: ["A) Force", "B) Velocity", "C) Work", "D) Momentum"]
+        },
+        "STS001": {
+            title: "World History",
+            question: "Who is known as the Father of the Indian Constitution?",
+            options: ["A) Mahatma Gandhi", "B) B. R. Ambedkar", "C) Jawaharlal Nehru", "D) Rajendra Prasad"]
+        }
+    };
+
+    const quiz = quizData[quizCode] || {
+        title: "Random Quiz",
+        question: "Invalid or random quiz code.",
+        options: ["A) DNE"]
+    };
     // Close any open modals
     const existingModal = document.querySelector('.quiz-modal');
     if (existingModal) {
@@ -1509,7 +1532,7 @@ function startQuiz(quizCode, playerName) {
         <div class="quiz-container">
             <div class="quiz-header">
                 <div class="quiz-info">
-                    <h2>Quiz: Basic Math Operations</h2>
+                    <h2>Quiz: ${quiz.title}</h2>
                     <p>Player: ${playerName}</p>
                 </div>
                 <div class="quiz-timer">
@@ -1520,17 +1543,16 @@ function startQuiz(quizCode, playerName) {
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: 0%"></div>
                 </div>
-                <span class="progress-text">Question 1 of 10</span>
+                <span class="progress-text">Question 1 of 1</span>
             </div>
             <div class="question-container">
                 <div class="question">
-                    <h3>What is 15 + 27?</h3>
+                    <h3>${quiz.question}</h3>
                 </div>
                 <div class="options">
-                    <button class="option-btn" data-answer="A">A) 32</button>
-                    <button class="option-btn" data-answer="B">B) 42</button>
-                    <button class="option-btn" data-answer="C">C) 52</button>
-                    <button class="option-btn" data-answer="D">D) 62</button>
+                    ${quiz.options.map((opt, i) => `
+                        <button class="option-btn" data-answer="${String.fromCharCode(65+i)}">${opt}</button>
+                    `).join("")}
                 </div>
             </div>
             <div class="quiz-actions">
@@ -1539,6 +1561,8 @@ function startQuiz(quizCode, playerName) {
             </div>
         </div>
     `;
+
+    document.body.appendChild(quizInterface);
 
     // Add quiz interface styles
     const quizStyles = `
